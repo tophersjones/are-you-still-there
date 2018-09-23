@@ -62,13 +62,16 @@ export default class Root extends React.Component {
           <button>inside</button>
           <button>the modal</button>
         </form>
+        You have <Countdown startTime={5} freezeBool={false}/> seconds
       </Modal>
-    console.log(modal)
+    const bool = this.state.modalIsOpen
     return (
       <div>
+        <div>
         <button onClick={this.openModal}>Open Modal</button>
           {modal}
-          <Countdown startTime={10} />
+        </div>
+          <Countdown startTime={10} freezeBool={bool}/>
       </div>
     );
   }

@@ -4,6 +4,7 @@ export default class Countdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      freeze: props.freezeBool,
       seconds: props.startTime,
     };
   }
@@ -20,13 +21,15 @@ export default class Countdown extends React.Component {
 
   decrementSeconds = () => {
     const prevSeconds = this.state.seconds
-    this.setState({seconds: (prevSeconds - 1)})
-    if (this.state.seconds > 0) {
+    this.setState({seconds: (prevSeconds - 1), freeze: this.props.freezeBool})
+    if (this.state.seconds > 0 && !this.state.freeze) {
       this.startCountdown()
     }
   }
 
   render() {
+    console.log(this.state.freeze)
+    // console.log(this.state.seconds > 0)
     return (
       <div>
         {this.state.seconds}
