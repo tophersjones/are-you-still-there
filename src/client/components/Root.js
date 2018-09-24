@@ -11,7 +11,9 @@ export default class Root extends React.Component {
     this.state = {
       modalIsOpen: false,
       randomCharCode: 0,
-      scoreCount: 0
+      charArr: [],
+      scoreCount: 0,
+      mainPageTime: 10
     };
   }
 
@@ -22,7 +24,10 @@ export default class Root extends React.Component {
   }
 
   handleKeyPress = (event) => {
-    if (event.charCode === this.state.randomCharCode) {
+    if (event.charCode === this.state.randomCharCode && !this.state.modalIsOpen) {
+      const updatedArr = this.state.charArr
+      updatedArr.push(String.fromCharCode(event.charCode))
+      this.setState({ charArr: updatedArr })
       this.incrementScore()
       this.genCode()
     }
@@ -36,12 +41,15 @@ export default class Root extends React.Component {
 
   genCode = () => {
     let charNum = Math.floor(Math.random() * 93) + 33
-    this.setState({randomCharCode: charNum})
+    this.setState({ randomCharCode: charNum })
+    
   }
 
   incrementScore = () => {
-    let score = this.state.scoreCount + 1
-    this.setState({ scoreCount: score })
+    if (!this.state.modalIsOpen) {
+      let score = this.state.scoreCount + 1
+      this.setState({ scoreCount: score })
+    }
   }
 
   openModal = () => {
@@ -56,6 +64,7 @@ export default class Root extends React.Component {
     if (this.timeoutHandle) {
       clearTimeout(this.timeoutHandle)
     }
+    this.setState({ mainPageTime: 10 })
     this.startTimer()
   }
   
@@ -73,40 +82,51 @@ export default class Root extends React.Component {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
-        <button onClick={this.closeModal}>close</button>
-        <div>Click a button or be banished to PAGE 2</div>
-        <form>
-          <input />
-          <button>tab navigation</button>
-          <button>stays</button>
-          <button>inside</button>
-          <button>the modal</button>
-        </form>
-        You have <Countdown startTime={5}/> seconds
+        <h2 
+          ref={subtitle => this.subtitle = subtitle}>
+          Hello
+        </h2>
+        <button 
+          onClick={this.closeModal}>
+          Try Again!
+        </button>
+        <div>
+          Click a button or be banished to PAGE 2
+        </div>
+        <div 
+          className="inline">
+          You have <Countdown startTime={5}/> seconds
+        </div>
       </Modal>
 
     const key =
-      <div>
+      <div id="targetChar">
         {String.fromCharCode(this.state.randomCharCode)}
       </div>
 
     const score = this.state.scoreCount
+
+    const arr = this.state.charArr
 
     return (
       <div 
         id="container"
         onKeyDown={this.handleKeyPress}
         tabIndex="0" >
-        <div>
-          {key}
+        <div className="inline">
+          <div>
+            {arr}
+          </div>
+          <div>
+            {key}
+          </div>
         </div>
         <div>
-          {score}
+          Score: {score}
         </div>
         <button onClick={this.openModal}>Open Modal</button>
           {modal}
-          <Countdown startTime={10} />
+          <Countdown startTime={this.state.mainPageTime} />
       </div>
     );
   }
@@ -121,5 +141,6 @@ const customStyles = {
     marginRight           : '-50%',
     backgroundColor       : 'aquamarine',
     transform             : 'translate(-50%, -50%)',
+    display               : 'inline-block'
   }
 };
