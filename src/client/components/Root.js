@@ -10,24 +10,45 @@ export default class Root extends React.Component {
     super();
     this.state = {
       modalIsOpen: false,
+      randomCharCode: 0,
+      scoreCount: 0
     };
   }
 
   componentDidMount = () => {
+    document.addEventListener('keypress', this.handleKeyPress)
     this.startTimer()
+    this.genCode()
+  }
+
+  handleKeyPress = (event) => {
+    if (event.charCode === this.state.randomCharCode) {
+      this.incrementScore()
+      this.genCode()
+    }
   }
 
   startTimer = () => {
     setTimeout(() => {
       this.openModal()
-    }, 4000)
+    }, 10000)
   }
-  
+
+  genCode = () => {
+    let charNum = Math.floor(Math.random() * 93) + 33
+    this.setState({randomCharCode: charNum})
+  }
+
+  incrementScore = () => {
+    let score = this.state.scoreCount + 1
+    this.setState({ scoreCount: score })
+  }
+
   openModal = () => {
     this.setState({ modalIsOpen: true });
     this.timeoutHandle = setTimeout(() => {
       this.props.history.push('/doom')
-    }, 4000)
+    }, 5000)
   } 
   
   closeModal = () => {
@@ -62,16 +83,30 @@ export default class Root extends React.Component {
           <button>inside</button>
           <button>the modal</button>
         </form>
-        You have <Countdown startTime={5} freezeBool={false}/> seconds
+        You have <Countdown startTime={5}/> seconds
       </Modal>
-    const bool = this.state.modalIsOpen
-    return (
+
+    const key =
       <div>
+        {String.fromCharCode(this.state.randomCharCode)}
+      </div>
+
+    const score = this.state.scoreCount
+
+    return (
+      <div 
+        id="container"
+        onKeyDown={this.handleKeyPress}
+        tabIndex="0" >
         <div>
+          {key}
+        </div>
+        <div>
+          {score}
+        </div>
         <button onClick={this.openModal}>Open Modal</button>
           {modal}
-        </div>
-          <Countdown startTime={10} freezeBool={bool}/>
+          <Countdown startTime={10} />
       </div>
     );
   }
