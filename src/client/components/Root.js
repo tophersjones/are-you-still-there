@@ -1,11 +1,13 @@
 import React from 'react';
 import Modal from 'react-modal';
 import Countdown from './Countdown'
+import { connect } from 'react-redux'
+import { updateHighScoreThunk } from '../store/highScore'
 // import { Transition, CSSTransition } from 'react-transition-group'
 
 Modal.setAppElement('#root')
 
-export default class Root extends React.Component {
+class Root extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -19,7 +21,6 @@ export default class Root extends React.Component {
   }
 
   componentDidMount = () => {
-    console.log('ppp')
     document.addEventListener('keypress', this.handleKeyPress)
     this.startTimer()
     this.genKeyCode()
@@ -55,9 +56,10 @@ export default class Root extends React.Component {
   incrementScore = async () => {
     let score = this.state.scoreCount + 1
     await this.setState({ scoreCount: score })
-    let highScore = this.state.highestScore
-    if (this.state.scoreCount > highScore) {
-      await this.setState({ highestScore: this.state.scoreCount })
+    let currentScore = this.state.scoreCount
+    let overallHighScore = this.props.highScore.highScore
+    if (currentScore > overallHighScore) {
+      await this.props.updateHighScore(currentScore)
     }
   }
 
@@ -82,8 +84,6 @@ export default class Root extends React.Component {
   }
 
   render() {
-    // console.log('window', window.location)
-
 
     const modal =  
       <Modal 
@@ -118,7 +118,6 @@ export default class Root extends React.Component {
 
     const score = this.state.scoreCount
     const arr = this.state.charArr
-    const highScore = this.state.highestScore
 
     return (
       <div 
@@ -131,11 +130,25 @@ export default class Root extends React.Component {
         {modal}
         <Countdown key="mainPage" startTime={10} reset={this.state.resetCounter}/>
         <div>Score: {score}</div>
-        <div>High Score: {highScore}</div>
+        <div>High Score: {this.props.highScore.highScore}</div>
       </div>
     );
   }
 }
+
+const mapState = state => {
+  return {
+    highScore: state.highScore
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    updateHighScore: highScore => dispatch(updateHighScoreThunk(highScore))
+  }
+}
+
+export default connect(mapState, mapDispatch)(Root)
 
 const customStyles = {
   content : {
