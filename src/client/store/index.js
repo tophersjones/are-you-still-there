@@ -10,7 +10,6 @@ import highScore from './highScore';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart', 'user'],
   stateReconciler: autoMergeLevel2,
 };
 
@@ -25,6 +24,5 @@ const middleware = composeWithDevTools(
 export const store = createStore(pReducer, middleware);
 export const persistor = persistStore(store);
 
-//?
 export default store;
-// export * from './user';
+
