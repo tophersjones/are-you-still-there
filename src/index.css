@@ -1,5 +1,6 @@
 body {
-  margin: 0;
+  background-image: url('https://res.cloudinary.com/dl7gzlb0w/image/upload/v1537905356/DSC_3513.jpg');
+  margin: 1;
   padding: 0;
   font-family: sans-serif;
 }
@@ -11,3 +12,45 @@ body {
 #targetChar {
   color: red;
 }
+
+#container {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  background-color: mintcream;
+  opacity: .9;
+  border-style: double;
+  border-spacing: 1em;
+  border-width: 9px;
+  border-radius: 29px;
+  border-color: teal;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+  font-size: 2em; 
+}
+
+.class {
+  position: relative;
+  margin: auto;
+  right: auto;
+  top: 42%;
+  width: 40%;
+  height: 40%;
+  text-align: center;
+  background-color: azure;
+  opacity: .6;
+  border-style: double;
+  border-spacing: 1em;
+  border-width: 9px;
+  border-radius: 29px;
+  border-color: rgb(151, 151, 151);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+  font-size: 2em; 
+}
+
+
+.highScore {
+  color: lightseagreen;
+  font-Size: 20px;
+  padding: 9px;
+}
+

@@ -90,23 +90,21 @@ class Root extends React.Component {
         isOpen={this.state.modalIsOpen}
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
-        style={customStyles}
+        // style={customStyles}
+        className="class"
         contentLabel="Example Modal">
         <h2 
           ref={subtitle => this.subtitle = subtitle}>
-          Hello
+          Modal
         </h2>
         <button 
           onClick={this.closeModal}>
           Try Again!
         </button>
-        <div>
-          Click a button or be banished to PAGE 2
-        </div>
           {this.state.modalIsOpen &&
             <div 
             className="inline">
-            You have <Countdown key="modal" startTime={5}/> seconds
+            Will be redirected in <Countdown key="modal" startTime={5}/> 
           </div>
           }
       </Modal>
@@ -129,8 +127,8 @@ class Root extends React.Component {
         </div>
         {modal}
         <Countdown key="mainPage" startTime={10} reset={this.state.resetCounter}/>
-        <div>Score: {score}</div>
-        <div>High Score: {this.props.highScore.highScore}</div>
+        <div className="score"> Score: {score} </div>
+        <div className="highScore"> Your High Score: {this.props.highScore.highScore} </div>
       </div>
     );
   }
@@ -149,16 +147,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Root)
-
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    backgroundColor       : 'aquamarine',
-    transform             : 'translate(-50%, -50%)',
-    display               : 'inline-block'
-  }
-};
