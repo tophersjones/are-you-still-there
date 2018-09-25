@@ -11,14 +11,14 @@ body {
 
 #targetChar {
   color: red;
-}
+} 
 
 #container {
   margin: auto;
   width: 50%;
   text-align: center;
-  background-color: mintcream;
-  opacity: .9;
+  background-color: rgb(248, 255, 252);
+  opacity: .95;
   border-style: double;
   border-spacing: 1em;
   border-width: 9px;
@@ -28,7 +28,24 @@ body {
   font-size: 2em; 
 }
 
-.class {
+h1 {
+  color: rosybrown;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+  text-shadow: 1px 2px 1px blanchedalmond
+}
+
+h4 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: royalblue
+}
+
+.link {
+  font-size: 1.5em;
+}
+
+.modal {
   position: relative;
   margin: auto;
   right: auto;
@@ -36,17 +53,28 @@ body {
   width: 40%;
   height: 40%;
   text-align: center;
-  background-color: azure;
-  opacity: .6;
+  background-color: rgb(246, 248, 255);
+  opacity: .8;
   border-style: double;
   border-spacing: 1em;
   border-width: 9px;
   border-radius: 29px;
   border-color: rgb(151, 151, 151);
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
-  font-size: 2em; 
+  font-size: 20px; 
 }
 
+.modal button {
+  height: 50px;
+  width: 145px;
+  margin-bottom: 20px;
+  background-color: oldlace;
+  border-width: 4px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+  font-size: 15px;
+  border-style: double;
+  border-radius: 20px;
+}
 
 .highScore {
   color: lightseagreen;

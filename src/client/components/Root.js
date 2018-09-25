@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import Countdown from './Countdown'
 import { connect } from 'react-redux'
 import { updateHighScoreThunk } from '../store/highScore'
-// import { Transition, CSSTransition } from 'react-transition-group'
 
 Modal.setAppElement('#root')
 
@@ -66,7 +65,7 @@ class Root extends React.Component {
   openModal = () => {
     this.setState({ modalIsOpen: true });
     this.modalTimeoutHandle = setTimeout(() => {
-      this.props.history.push('/doom')
+      this.props.history.push('/pagetwo')
     }, 5100)
   }
 
@@ -77,11 +76,6 @@ class Root extends React.Component {
     await this.setState({ modalIsOpen: false, charArr: [], scoreCount: 0, resetCounter: true })
     this.props.history.push('/refresh/')
   }
-  
-  afterOpenModal = () => {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = '#f00';
-  }
 
   render() {
 
@@ -90,21 +84,21 @@ class Root extends React.Component {
         isOpen={this.state.modalIsOpen}
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
-        // style={customStyles}
-        className="class"
+        className="modal"
         contentLabel="Example Modal">
-        <h2 
-          ref={subtitle => this.subtitle = subtitle}>
+        <h4>
           Modal
-        </h2>
-        <button 
-          onClick={this.closeModal}>
-          Try Again!
-        </button>
+        </h4>
+        <div className="button">
+          <button 
+            onClick={this.closeModal}>
+            Try Again!
+          </button>
+        </div>
           {this.state.modalIsOpen &&
             <div 
             className="inline">
-            Will be redirected in <Countdown key="modal" startTime={5}/> 
+            Will be redirected to PAGE 2 in <Countdown key="modal" startTime={5}/> 
           </div>
           }
       </Modal>
