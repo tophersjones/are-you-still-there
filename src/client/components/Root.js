@@ -13,14 +13,14 @@ export default class Root extends React.Component {
       randomCharCode: 0,
       charArr: [],
       scoreCount: 0,
-      mainPageTime: 10
+      resetCounter: false
     };
   }
 
   componentDidMount = () => {
     document.addEventListener('keypress', this.handleKeyPress)
     this.startTimer()
-    this.genCode()
+    this.genKeyCode()
   }
 
   handleKeyPress = (event) => {
@@ -29,42 +29,44 @@ export default class Root extends React.Component {
       updatedArr.push(String.fromCharCode(event.charCode))
       this.setState({ charArr: updatedArr })
       this.incrementScore()
-      this.genCode()
+      this.genKeyCode()
     }
   }
 
   startTimer = () => {
+    this.setState({ resetCounter: false })
     setTimeout(() => {
       this.openModal()
     }, 10000)
   }
 
-  genCode = () => {
+  genKeyCode = () => {
     let charNum = Math.floor(Math.random() * 93) + 33
+    // no I's l's or |'s
+    const badChars = [108, 73, 124]
+    if (badChars.includes(charNum)) {
+      charNum ++
+    }
     this.setState({ randomCharCode: charNum })
-    
   }
 
   incrementScore = () => {
-    if (!this.state.modalIsOpen) {
-      let score = this.state.scoreCount + 1
-      this.setState({ scoreCount: score })
-    }
+    let score = this.state.scoreCount + 1
+    this.setState({ scoreCount: score })
   }
 
   openModal = () => {
     this.setState({ modalIsOpen: true });
-    this.timeoutHandle = setTimeout(() => {
+    this.modalTimeoutHandle = setTimeout(() => {
       this.props.history.push('/doom')
-    }, 5000)
+    }, 5100)
   } 
-  
-  closeModal = () => {
-    this.setState({ modalIsOpen: false });
-    if (this.timeoutHandle) {
-      clearTimeout(this.timeoutHandle)
+
+  closeModal = async () => {
+    await this.setState({ modalIsOpen: false, charArr: [], scoreCount: 0, resetCounter: true });
+    if (this.modalTimeoutHandle) {
+      clearTimeout(this.modalTimeoutHandle)
     }
-    this.setState({ mainPageTime: 10 })
     this.startTimer()
   }
   
@@ -80,8 +82,7 @@ export default class Root extends React.Component {
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
         style={customStyles}
-        contentLabel="Example Modal"
-      >
+        contentLabel="Example Modal">
         <h2 
           ref={subtitle => this.subtitle = subtitle}>
           Hello
@@ -93,10 +94,12 @@ export default class Root extends React.Component {
         <div>
           Click a button or be banished to PAGE 2
         </div>
-        <div 
-          className="inline">
-          You have <Countdown startTime={5}/> seconds
-        </div>
+          {this.state.modalIsOpen &&
+            <div 
+            className="inline">
+            You have <Countdown startTime={5}/> seconds
+          </div>
+          }
       </Modal>
 
     const key =
@@ -105,14 +108,12 @@ export default class Root extends React.Component {
       </div>
 
     const score = this.state.scoreCount
-
     const arr = this.state.charArr
 
     return (
       <div 
         id="container"
-        onKeyDown={this.handleKeyPress}
-        tabIndex="0" >
+        onKeyDown={this.handleKeyPress} >
         <div className="inline">
           <div>
             {arr}
@@ -124,9 +125,8 @@ export default class Root extends React.Component {
         <div>
           Score: {score}
         </div>
-        <button onClick={this.openModal}>Open Modal</button>
           {modal}
-          <Countdown startTime={this.state.mainPageTime} />
+          <Countdown startTime={10} reset={this.state.resetCounter}/>
       </div>
     );
   }

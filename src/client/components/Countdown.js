@@ -5,6 +5,7 @@ export default class Countdown extends React.Component {
     super(props);
     this.state = {
       seconds: props.startTime,
+      switch: true
     };
   }
 
@@ -12,16 +13,35 @@ export default class Countdown extends React.Component {
     this.startCountdown()
   }
 
+  componentWillUnmount = () => {
+    console.log('fuck')
+    clearTimeout(this.counterTimeoutHandle)
+    this.setState({seconds: this.props.startTime})
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // console.log(nextProps, this.props)
+    if (nextProps.reset !== this.props.reset) {
+      this.setState({ seconds: nextProps.startTime })
+      clearTimeout(this.counterTimeoutHandle)
+
+    }
+  }
+
   startCountdown = () => {
-    setTimeout(() => {
+    console.log('countdownStarted')
+    this.counterTimoutHandle = setTimeout(() => {
       this.decrementSeconds()
     }, 1000)
   }
 
-  decrementSeconds = () => {
+  decrementSeconds = async () => {
+    console.log('seconds', this.state.seconds)
     const prevSeconds = this.state.seconds
-    this.setState({seconds: (prevSeconds - 1)})
-    if (this.state.seconds > 0) {
+    console.log('prevSeconds', prevSeconds)
+    await this.setState({seconds: (prevSeconds - 1)})
+    console.log(this.state)
+    if (this.state.seconds > 1) {
       this.startCountdown()
     }
   }
