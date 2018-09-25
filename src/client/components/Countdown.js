@@ -10,6 +10,7 @@ export default class Countdown extends React.Component {
   }
 
   componentDidMount = () => {
+    console.log('ok')
     this.startCountdown()
   }
 

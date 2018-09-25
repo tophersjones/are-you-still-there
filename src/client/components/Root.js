@@ -14,12 +14,12 @@ export default class Root extends React.Component {
       charArr: [],
       scoreCount: 0,
       resetCounter: false,
-      blankFlag: false
+      highestScore: 0
     };
   }
 
   componentDidMount = () => {
-    console.log('thisisit')
+    console.log('ppp')
     document.addEventListener('keypress', this.handleKeyPress)
     this.startTimer()
     this.genKeyCode()
@@ -52,9 +52,13 @@ export default class Root extends React.Component {
     this.setState({ randomCharCode: charNum })
   }
 
-  incrementScore = () => {
+  incrementScore = async () => {
     let score = this.state.scoreCount + 1
-    this.setState({ scoreCount: score })
+    await this.setState({ scoreCount: score })
+    let highScore = this.state.highestScore
+    if (this.state.scoreCount > highScore) {
+      await this.setState({ highestScore: this.state.scoreCount })
+    }
   }
 
   openModal = () => {
@@ -65,12 +69,11 @@ export default class Root extends React.Component {
   }
 
   closeModal = async () => {
-    await this.setState({ modalIsOpen: false, charArr: [], scoreCount: 0, resetCounter: true });
     if (this.modalTimeoutHandle) {
-      console.log('oh')
-      clearTimeout(this.modalTimeoutHandle)
+      await clearTimeout(this.modalTimeoutHandle)
     }
-    window.location.reload()
+    await this.setState({ modalIsOpen: false, charArr: [], scoreCount: 0, resetCounter: true })
+    this.props.history.push('/refresh/')
   }
   
   afterOpenModal = () => {
@@ -79,6 +82,9 @@ export default class Root extends React.Component {
   }
 
   render() {
+    // console.log('window', window.location)
+
+
     const modal =  
       <Modal 
         isOpen={this.state.modalIsOpen}
@@ -100,7 +106,7 @@ export default class Root extends React.Component {
           {this.state.modalIsOpen &&
             <div 
             className="inline">
-            You have <Countdown startTime={5}/> seconds
+            You have <Countdown key="modal" startTime={5}/> seconds
           </div>
           }
       </Modal>
@@ -112,6 +118,7 @@ export default class Root extends React.Component {
 
     const score = this.state.scoreCount
     const arr = this.state.charArr
+    const highScore = this.state.highestScore
 
     return (
       <div 
@@ -119,11 +126,12 @@ export default class Root extends React.Component {
         onKeyDown={this.handleKeyPress} >
         <div className="inline">
           <div>{arr}</div>
-          <div>{generatedKey}</div>
+          <div>{!this.state.modalIsOpen && generatedKey}</div>
         </div>
+        {modal}
+        <Countdown key="mainPage" startTime={10} reset={this.state.resetCounter}/>
         <div>Score: {score}</div>
-          {modal}
-          <Countdown startTime={10} reset={this.state.resetCounter}/>
+        <div>High Score: {highScore}</div>
       </div>
     );
   }
