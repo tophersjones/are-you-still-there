@@ -13,11 +13,13 @@ export default class Root extends React.Component {
       randomCharCode: 0,
       charArr: [],
       scoreCount: 0,
-      resetCounter: false
+      resetCounter: false,
+      blankFlag: false
     };
   }
 
   componentDidMount = () => {
+    console.log('thisisit')
     document.addEventListener('keypress', this.handleKeyPress)
     this.startTimer()
     this.genKeyCode()
@@ -60,14 +62,15 @@ export default class Root extends React.Component {
     this.modalTimeoutHandle = setTimeout(() => {
       this.props.history.push('/doom')
     }, 5100)
-  } 
+  }
 
   closeModal = async () => {
     await this.setState({ modalIsOpen: false, charArr: [], scoreCount: 0, resetCounter: true });
     if (this.modalTimeoutHandle) {
+      console.log('oh')
       clearTimeout(this.modalTimeoutHandle)
     }
-    this.startTimer()
+    window.location.reload()
   }
   
   afterOpenModal = () => {
@@ -102,7 +105,7 @@ export default class Root extends React.Component {
           }
       </Modal>
 
-    const key =
+    const generatedKey =
       <div id="targetChar">
         {String.fromCharCode(this.state.randomCharCode)}
       </div>
@@ -115,16 +118,10 @@ export default class Root extends React.Component {
         id="container"
         onKeyDown={this.handleKeyPress} >
         <div className="inline">
-          <div>
-            {arr}
-          </div>
-          <div>
-            {key}
-          </div>
+          <div>{arr}</div>
+          <div>{generatedKey}</div>
         </div>
-        <div>
-          Score: {score}
-        </div>
+        <div>Score: {score}</div>
           {modal}
           <Countdown startTime={10} reset={this.state.resetCounter}/>
       </div>
