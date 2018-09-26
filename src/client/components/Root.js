@@ -4,7 +4,7 @@ import Countdown from './Countdown'
 import { connect } from 'react-redux'
 import { updateHighScoreThunk } from '../store/highScore'
 
-Modal.setAppElement('#root')
+if (process.env.NODE_ENV !== 'test') Modal.setAppElement('#root')
 
 class Root extends React.Component {
   constructor() {
@@ -15,7 +15,6 @@ class Root extends React.Component {
       charArr: [],
       scoreCount: 0,
       resetCounter: false,
-      highestScore: 0
     };
   }
 
@@ -23,6 +22,13 @@ class Root extends React.Component {
     document.addEventListener('keypress', this.handleKeyPress)
     this.startTimer()
     this.genKeyCode()
+  }
+  
+  startTimer = () => {
+    this.setState({ resetCounter: false })
+    setTimeout(() => {
+      this.openModal()
+    }, 10000)
   }
 
   handleKeyPress = (event) => {
@@ -33,13 +39,6 @@ class Root extends React.Component {
       this.incrementScore()
       this.genKeyCode()
     }
-  }
-
-  startTimer = () => {
-    this.setState({ resetCounter: false })
-    setTimeout(() => {
-      this.openModal()
-    }, 10000)
   }
 
   genKeyCode = () => {
@@ -98,7 +97,7 @@ class Root extends React.Component {
           {this.state.modalIsOpen &&
             <div 
             className="inline">
-            Will be redirected to PAGE 2 in <Countdown key="modal" startTime={5}/> 
+            You will be redirected to PAGE 2 in <Countdown key="modal" startTime={5}/> 
           </div>
           }
       </Modal>

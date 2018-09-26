@@ -35,8 +35,8 @@ h1 {
 }
 
 h4 {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   font-size: 2em;
   color: royalblue
 }
@@ -67,9 +67,10 @@ h4 {
 .modal button {
   height: 50px;
   width: 145px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   background-color: oldlace;
-  border-width: 4px;
+  border-width: 3px;
+  border-color: rgb(46, 46, 46);
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
   font-size: 15px;
   border-style: double;
