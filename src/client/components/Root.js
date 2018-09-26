@@ -91,14 +91,14 @@ class Root extends React.Component {
         <div className="button">
           <button 
             onClick={this.closeModal}>
-            Try Again!
+            Try Again!     (I'm still here)
           </button>
         </div>
           {this.state.modalIsOpen &&
             <div 
-            className="inline">
-            You will be redirected to PAGE 2 in <Countdown key="modal" startTime={5}/> 
-          </div>
+              className="inline">
+              You will be redirected to PAGE 2 in <Countdown key="modal" startTime={5}/> 
+            </div>
           }
       </Modal>
 
