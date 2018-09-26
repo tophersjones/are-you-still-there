@@ -86,12 +86,12 @@ class Root extends React.Component {
         className="modal"
         contentLabel="Example Modal">
         <h4>
-          Modal
+          Modal Window
         </h4>
         <div className="button">
           <button 
             onClick={this.closeModal}>
-            Try Again!     (I'm still here)
+            Try Again! (I'm still here)
           </button>
         </div>
           {this.state.modalIsOpen &&
